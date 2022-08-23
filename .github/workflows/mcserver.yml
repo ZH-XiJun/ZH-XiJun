@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Mimecraft Server in Github Action! 
+name: Minecraft Server in Github Action! 
 
 # Controls when the workflow will run
 on:
@@ -28,7 +28,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: apt更新
         run: |
-          echo apt updating....
-          sudo apt update&&sudo apt upgrade
-          echo 安装Java
-          sudo apt install openjdk-11-jre
+          echo 更新软件....
+          sudo apt update&&sudo apt upgrade -y
+          echo 安装Java....
+          sudo apt install openjdk-11-jre -y
+          
