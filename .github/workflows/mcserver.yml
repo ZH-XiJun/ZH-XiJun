@@ -26,10 +26,18 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a set of commands using the runners shell
-      - name: apt更新
+      - name: apt更新并安装软件
         run: |
           echo 更新软件....
           sudo apt update&&sudo apt upgrade -y
-          echo 安装Java....
-          sudo apt install openjdk-11-jre -y
+          echo 安装软件....
+          sudo apt install openjdk-11-jre wget -y
+          echo 测试Java
+          java -versions
+          echo 完成
+
+      - name: 启动服务端
+        run: |
+          echo test
+          
           
