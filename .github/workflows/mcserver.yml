@@ -31,9 +31,9 @@ jobs:
           echo 更新软件....
           sudo apt update&&sudo apt upgrade -y
           echo 安装软件....
-          sudo apt install openjdk-11-jre wget -y
+          sudo apt install openjdk-11-jre wget git -y
           echo 测试Java
-          java -versions
+          java -version
           echo 完成
 
       - name: 启动服务端
