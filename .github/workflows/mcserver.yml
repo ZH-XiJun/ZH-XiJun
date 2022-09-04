@@ -6,9 +6,9 @@ name: Minecraft Server in Github Action!
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [ "mcserver" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "mcserver" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,8 +36,11 @@ jobs:
           java -version
           echo 完成
 
-      - name: 启动服务端
+      - name: 获取服务端
         run: |
+          echo 获取服务端...
+          git clone https://github.com/zh-xijun/zh-xijun.git -b mcserver
           echo test
+          ls
           
           
