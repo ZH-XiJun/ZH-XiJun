@@ -40,7 +40,9 @@ jobs:
           cd libretro-super
           ./libretro-fetch.sh
       - name: 开始编译...
-        run: ./libretro-build-ios.sh
+        run: |
+          cd ~/libretro-super/
+          ./libretro-build-ios.sh
         
       - name: 上传文件到Releases
         run: echo test
