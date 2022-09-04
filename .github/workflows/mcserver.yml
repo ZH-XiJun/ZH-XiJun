@@ -39,9 +39,9 @@ jobs:
       - name: 安装并启动内网穿透...
         run: |
           echo 使用npm安装...
-          npm install -g nat-client
+          npm install -g nat-client pm2
           echo 尝试启动...
-          nat-client 1970bb8b-f6ce-4e06-b753-c07a230896a6
-           
+          pm2 start "nat-client aa6eec83-1d8a-4c9f-a8a5-1f4fa50da9af" --name save
+          
           
           
