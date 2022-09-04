@@ -36,11 +36,10 @@ jobs:
           java -version
           echo 完成
 
-      - name: 获取服务端
+      - name: 尝试启动服务端...
         run: |
-          echo 获取服务端...
-          git clone https://github.com/zh-xijun/zh-xijun.git -b mcserver
-          echo test
-          ls
+          echo 启动服务端...
+          ifconfig
+           
           
           
