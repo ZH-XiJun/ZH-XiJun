@@ -38,7 +38,8 @@ jobs:
           echo 下载源码...
           git clone https://github.com/libretro/libretro-super
           cd libretro-super
-          ./libretro-fetch.sh
+          pwd
+          
       - name: 开始编译...
         run: |
           cd ~/libretro-super/
