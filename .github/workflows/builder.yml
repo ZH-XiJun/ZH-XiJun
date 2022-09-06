@@ -26,11 +26,10 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: apt更新软件
         run: |
-          cd .git
-          ls
-          git
           echo 更新软件....
           sudo apt update&&sudo apt upgrade -y
+          echo 安装软件
+          sudo apt install p7zip-full
           echo 完成
       - name: 获取源码
         run: |
@@ -40,6 +39,12 @@ jobs:
           git clone https://github.com/libretro/libretro-super
           cd libretro-super
           ./libretro-fetch.sh
+
+      - name: 打包源码
+         run: |
+          echo 使用7-zip打包源码......
+          cd $GITHUB_WORKSPACE
+          7z a libretro-super.7z libretro-super/
 
       - name: 上传源码文件
         uses: actions/upload-artifact@v3
