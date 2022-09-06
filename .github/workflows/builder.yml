@@ -40,18 +40,6 @@ jobs:
           cd libretro-super
           ./libretro-fetch.sh
 
-      - name: 打包源码
-        run: |
-          echo 使用7-zip打包源码......
-          cd $GITHUB_WORKSPACE
-          7z a libretro-super.7z libretro-super/
-
-      - name: 上传源码文件
-        uses: actions/upload-artifact@v3
-        with:
-          name: retroarch-sources
-          path: libretro-super.7z
-
       - name: 开始编译...
         run: |
           cd $GITHUB_WORKSPACE/libretro-super/
