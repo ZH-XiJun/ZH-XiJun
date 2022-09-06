@@ -41,14 +41,18 @@ jobs:
           cd libretro-super
           ./libretro-fetch.sh
 
+      - name: 上传源码文件
+        uses: actions/upload-artifact@v3
+        with:
+          name: retroarch-sources
+          path: libretro-super.7z
 
-          
       - name: 开始编译...
         run: |
           cd $GITHUB_WORKSPACE/libretro-super/
           ./libretro-build-ios.sh
         
-      - name: 上传文件到Releases
+      - name: 上传文件
         run: echo test
           
           
