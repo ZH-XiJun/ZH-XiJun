@@ -67,6 +67,10 @@ jobs:
           git config --global user.email "azwhikaru+37921907@github.com"
           repo init --depth=1 -u https://github.com/LineageOS/android.git -b lineage-15.1
         id: pwd
+      - name: Repo Sync
+        run: |
+          repo sync -j$(nproc --all) --force-sync
+        working-directory: workspace
       
       # Runs a set of commands using the runners shell
       - name: get a interactive shell
